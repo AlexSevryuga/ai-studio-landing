@@ -655,6 +655,488 @@ body {
 @media (max-width: 480px) {
   .kpi-row { grid-template-columns: 1fr; }
 }
+
+/* ─── Scroll Reveal ─── */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Section Divider ─── */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 36px 0 32px;
+}
+
+/* ─── AI Director Panel ─── */
+.ai-director {
+  margin-bottom: 32px;
+}
+.ai-comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ai-comment {
+  background: #1a1725;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.ai-comment:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+.ai-comment.warning { border-left-color: var(--yellow); }
+.ai-comment.success { border-left-color: var(--green); }
+.ai-comment.info { border-left-color: var(--blue); }
+
+.ai-comment-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+}
+.ai-comment-body {
+  flex: 1;
+  min-width: 0;
+}
+.ai-comment-text {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.ai-comment-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.btn-sm {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--transition);
+}
+.btn-sm:hover {
+  border-color: var(--purple);
+  color: var(--purple-light);
+  background: var(--purple-glow);
+}
+.btn-sm.primary {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: white;
+}
+.btn-sm.primary:hover {
+  background: #6d28d9;
+}
+.btn-sm.dismiss {
+  color: var(--text-faint);
+}
+.btn-sm.dismiss:hover {
+  color: var(--text-muted);
+  border-color: var(--text-faint);
+  background: rgba(255,255,255,0.03);
+}
+
+/* ─── Style Guide / Mood Board ─── */
+.style-guide {
+  margin-bottom: 32px;
+}
+.style-cards-row {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 0 16px;
+  scrollbar-width: thin;
+}
+.style-card {
+  width: 160px;
+  min-width: 160px;
+  height: 200px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 14px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.style-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.style-card.active {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px var(--purple-glow-strong);
+}
+.style-card-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--purple);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+}
+.style-card.active .style-card-check {
+  display: flex;
+}
+.style-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  position: relative;
+  z-index: 2;
+}
+/* Gradients for each style */
+.style-film-noir { background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 40%, #0d0d2a 100%); }
+.style-art-deco { background: linear-gradient(135deg, #2c2410 0%, #d4af37 50%, #f5f0e1 100%); }
+.style-cyberpunk { background: linear-gradient(135deg, #0a001a 0%, #7c3aed 40%, #06b6d4 100%); }
+.style-ghibli { background: linear-gradient(135deg, #a8d8ea 0%, #f8c8dc 50%, #f5e6cc 100%); }
+.style-photorealistic { background: linear-gradient(135deg, #2a2a2a 0%, #4a4a4a 50%, #3a3a3a 100%); }
+.style-watercolor { background: linear-gradient(135deg, #c9b1ff 0%, #f0c6d0 40%, #a8d8c8 70%, #f5e6a8 100%); }
+
+.palette-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.palette-color {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.palette-swatch {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+}
+.palette-hex {
+  font-size: 10.5px;
+  font-family: 'Inter', monospace;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.mood-reference {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-faint);
+  font-style: italic;
+  line-height: 1.5;
+}
+.mood-reference strong {
+  color: var(--text-muted);
+  font-style: normal;
+  font-weight: 500;
+}
+.style-apply-btn {
+  margin-top: 16px;
+}
+
+/* ─── Multi-Model Render ─── */
+.render-compare {
+  margin-bottom: 32px;
+}
+.render-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.render-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.render-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.render-card.selected {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 2px var(--purple-glow-strong);
+}
+.render-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.render-model-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.badge-best {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--purple-glow);
+  color: var(--purple-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.render-preview {
+  height: 140px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.render-preview-1 { background: linear-gradient(135deg, #1a1525 0%, #2a2040 100%); }
+.render-preview-2 { background: linear-gradient(135deg, #1e1835 0%, #352a50 100%); }
+.render-preview-3 { background: linear-gradient(135deg, #181528 0%, #28203e 100%); }
+.play-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.play-icon::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 14px solid rgba(255,255,255,0.8);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  margin-left: 3px;
+}
+.render-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.render-meta-item {
+  font-size: 12px;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.render-meta-item strong {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.quality-badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+}
+.render-stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--yellow);
+}
+.render-stars .star-empty {
+  opacity: 0.25;
+}
+.render-stars .star-half {
+  position: relative;
+}
+.render-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ─── Social Export ─── */
+.social-export {
+  margin-bottom: 32px;
+}
+.export-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.export-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.export-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.export-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.export-preview {
+  background: #1a1725;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+}
+.export-preview.vertical {
+  width: 120px;
+  height: 213px;
+}
+.export-preview.horizontal {
+  width: 100%;
+  max-width: 280px;
+  height: 120px;
+}
+.export-play {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.export-play::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 11px solid rgba(255,255,255,0.7);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  margin-left: 2px;
+}
+.export-format {
+  font-size: 12px;
+  color: var(--text-faint);
+  font-family: 'Inter', monospace;
+  text-align: center;
+}
+.export-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.toggle-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.toggle-switch {
+  width: 38px;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  position: relative;
+  cursor: pointer;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+.toggle-switch.on {
+  background: var(--purple);
+}
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform var(--transition);
+}
+.toggle-switch.on::after {
+  transform: translateX(18px);
+}
+.btn-export {
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 12.5px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--transition);
+}
+.btn-export:hover {
+  border-color: var(--purple);
+  color: var(--purple-light);
+  background: var(--purple-glow);
+}
+.export-all-btn {
+  margin-top: 2px;
+}
+
+/* ─── Responsive for new sections ─── */
+@media (max-width: 1100px) {
+  .render-cards { grid-template-columns: repeat(2, 1fr); }
+  .export-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .render-cards { grid-template-columns: 1fr; }
+  .export-cards { grid-template-columns: 1fr; }
+  .style-cards-row { gap: 10px; }
+  .style-card { width: 140px; min-width: 140px; height: 180px; }
+  .ai-comment { flex-direction: column; gap: 8px; }
+  .export-preview.horizontal { max-width: 100%; height: 140px; }
+}
 </style>
 </head>
 <body>
@@ -999,6 +1481,284 @@ body {
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════ -->
+    <!-- NEW SECTION 1: AI Director / QA Coach -->
+    <!-- ═══════════════════════════════════════ -->
+    <hr class="section-divider">
+    <div class="ai-director reveal-section">
+      <div class="section-title">AI Director — The Great Gatsby</div>
+      <div class="ai-comment-list">
+
+        <div class="ai-comment warning">
+          <div class="ai-comment-icon">⚠️</div>
+          <div class="ai-comment-body">
+            <div class="ai-comment-text">Scene 3 lacks dramatic tension. Consider adding conflict between Nick and Tom before the dinner scene.</div>
+            <div class="ai-comment-actions">
+              <button class="btn-sm primary">Apply Suggestion</button>
+              <button class="btn-sm dismiss">Dismiss</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-comment success">
+          <div class="ai-comment-icon">✓</div>
+          <div class="ai-comment-body">
+            <div class="ai-comment-text">Character consistency score: 94%. Gatsby's description matches across all 24 scenes.</div>
+          </div>
+        </div>
+
+        <div class="ai-comment info">
+          <div class="ai-comment-icon">💡</div>
+          <div class="ai-comment-body">
+            <div class="ai-comment-text">Pacing analysis: Act 2 is 40% longer than typical screenplay structure. Consider trimming scenes 12–15.</div>
+            <div class="ai-comment-actions">
+              <button class="btn-sm">Show Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-comment warning">
+          <div class="ai-comment-icon">⚠️</div>
+          <div class="ai-comment-body">
+            <div class="ai-comment-text">Vision prompt for Scene 7 may produce inconsistent lighting. Recommend adding 'golden hour, warm tones' to maintain visual continuity.</div>
+            <div class="ai-comment-actions">
+              <button class="btn-sm primary">Auto-fix</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- NEW SECTION 2: Style Guide / Mood Board -->
+    <!-- ═══════════════════════════════════════ -->
+    <hr class="section-divider">
+    <div class="style-guide reveal-section">
+      <div class="section-title">Visual Style — The Great Gatsby</div>
+
+      <div class="style-cards-row">
+        <div class="style-card style-film-noir">
+          <span class="style-card-check">✓</span>
+          <span class="style-card-name">Film Noir</span>
+        </div>
+        <div class="style-card style-art-deco active">
+          <span class="style-card-check">✓</span>
+          <span class="style-card-name">Art Deco</span>
+        </div>
+        <div class="style-card style-cyberpunk">
+          <span class="style-card-check">✓</span>
+          <span class="style-card-name">Cyberpunk</span>
+        </div>
+        <div class="style-card style-ghibli">
+          <span class="style-card-check">✓</span>
+          <span class="style-card-name">Studio Ghibli</span>
+        </div>
+        <div class="style-card style-photorealistic">
+          <span class="style-card-check">✓</span>
+          <span class="style-card-name">Photorealistic</span>
+        </div>
+        <div class="style-card style-watercolor">
+          <span class="style-card-check">✓</span>
+          <span class="style-card-name">Watercolor</span>
+        </div>
+      </div>
+
+      <div class="palette-row">
+        <div class="palette-color">
+          <div class="palette-swatch" style="background: #1a1a2e;"></div>
+          <span class="palette-hex">#1a1a2e</span>
+        </div>
+        <div class="palette-color">
+          <div class="palette-swatch" style="background: #d4af37;"></div>
+          <span class="palette-hex">#d4af37</span>
+        </div>
+        <div class="palette-color">
+          <div class="palette-swatch" style="background: #f5f0e1;"></div>
+          <span class="palette-hex">#f5f0e1</span>
+        </div>
+        <div class="palette-color">
+          <div class="palette-swatch" style="background: #8b0000;"></div>
+          <span class="palette-hex">#8b0000</span>
+        </div>
+        <div class="palette-color">
+          <div class="palette-swatch" style="background: #2c2c54;"></div>
+          <span class="palette-hex">#2c2c54</span>
+        </div>
+      </div>
+
+      <div class="mood-reference">
+        <strong>Reference mood:</strong> 1920s Jazz Age, Art Deco architecture, champagne gold accents, soft bokeh lighting
+      </div>
+
+      <div class="style-apply-btn">
+        <button class="btn-primary">
+          <i data-lucide="paintbrush"></i>
+          Apply to All Scenes
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- NEW SECTION 3: Multi-Model Render Comparison -->
+    <!-- ═══════════════════════════════════════════ -->
+    <hr class="section-divider">
+    <div class="render-compare reveal-section">
+      <div class="section-title">Multi-Model Render — Scene 1: Nick's Cottage</div>
+
+      <div class="render-cards">
+
+        <!-- Veo 3.1 Fast -->
+        <div class="render-card">
+          <div class="render-card-header">
+            <span class="render-model-name">Veo 3.1 Fast</span>
+            <span class="quality-badge">720p</span>
+          </div>
+          <div class="render-preview render-preview-1">
+            <div class="play-icon"></div>
+          </div>
+          <div class="render-meta">
+            <div class="render-meta-item"><i data-lucide="clock" style="width:13px;height:13px;"></i><strong>12 sec</strong></div>
+            <div class="render-meta-item"><i data-lucide="credit-card" style="width:13px;height:13px;"></i><strong>$0.80</strong></div>
+          </div>
+          <div class="render-stars">
+            <span>★</span><span>★</span><span>★</span><span class="star-half">★</span><span class="star-empty">★</span>
+            <span style="font-size:12px;color:var(--text-faint);margin-left:4px;">3.5</span>
+          </div>
+        </div>
+
+        <!-- Veo 3.1 Standard (SELECTED) -->
+        <div class="render-card selected">
+          <div class="render-card-header">
+            <span class="render-model-name">Veo 3.1 Standard</span>
+            <span class="badge-best">Best Match</span>
+          </div>
+          <div class="render-preview render-preview-2">
+            <div class="play-icon"></div>
+          </div>
+          <div class="render-meta">
+            <span class="quality-badge">1080p</span>
+            <div class="render-meta-item"><i data-lucide="clock" style="width:13px;height:13px;"></i><strong>28 sec</strong></div>
+            <div class="render-meta-item"><i data-lucide="credit-card" style="width:13px;height:13px;"></i><strong>$1.20</strong></div>
+          </div>
+          <div class="render-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span class="star-half">★</span>
+            <span style="font-size:12px;color:var(--text-faint);margin-left:4px;">4.5</span>
+          </div>
+        </div>
+
+        <!-- Kling v2 -->
+        <div class="render-card">
+          <div class="render-card-header">
+            <span class="render-model-name">Kling v2</span>
+            <span class="quality-badge">1080p</span>
+          </div>
+          <div class="render-preview render-preview-3">
+            <div class="play-icon"></div>
+          </div>
+          <div class="render-meta">
+            <div class="render-meta-item"><i data-lucide="clock" style="width:13px;height:13px;"></i><strong>35 sec</strong></div>
+            <div class="render-meta-item"><i data-lucide="credit-card" style="width:13px;height:13px;"></i><strong>$0.95</strong></div>
+          </div>
+          <div class="render-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span class="star-empty">★</span>
+            <span style="font-size:12px;color:var(--text-faint);margin-left:4px;">4.0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="render-actions">
+        <button class="btn-primary">
+          <i data-lucide="check"></i>
+          Use Selected
+        </button>
+        <button class="btn-outline">
+          <i data-lucide="refresh-cw"></i>
+          Regenerate All
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- NEW SECTION 4: Social Export Panel      -->
+    <!-- ═══════════════════════════════════════ -->
+    <hr class="section-divider">
+    <div class="social-export reveal-section">
+      <div class="section-title">Export for Social Media</div>
+
+      <div class="export-cards">
+
+        <!-- TikTok / Reels -->
+        <div class="export-card">
+          <div class="export-card-title">TikTok / Reels</div>
+          <div class="export-preview vertical">
+            <div class="export-play"></div>
+          </div>
+          <div class="export-format">MP4 • 1080×1920 • 60fps</div>
+          <div class="export-toggles">
+            <div class="toggle-row">
+              <span class="toggle-label">Auto-subtitles</span>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Trending audio</span>
+              <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <button class="btn-export">Export</button>
+        </div>
+
+        <!-- YouTube -->
+        <div class="export-card">
+          <div class="export-card-title">YouTube</div>
+          <div class="export-preview horizontal">
+            <div class="export-play"></div>
+          </div>
+          <div class="export-format">MP4 • 1920×1080 • 30fps</div>
+          <div class="export-toggles">
+            <div class="toggle-row">
+              <span class="toggle-label">Chapters</span>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Thumbnail</span>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <button class="btn-export">Export</button>
+        </div>
+
+        <!-- Instagram Story -->
+        <div class="export-card">
+          <div class="export-card-title">Instagram Story</div>
+          <div class="export-preview vertical">
+            <div class="export-play"></div>
+          </div>
+          <div class="export-format">MP4 • 1080×1920 • 30fps</div>
+          <div class="export-toggles">
+            <div class="toggle-row">
+              <span class="toggle-label">Sticker overlay</span>
+              <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">CTA link</span>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <button class="btn-export">Export</button>
+        </div>
+
+      </div>
+
+      <div class="export-all-btn">
+        <button class="btn-primary" style="width:100%;justify-content:center;padding:12px 24px;font-size:15px;">
+          <i data-lucide="download"></i>
+          Export All Formats
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <!-- Footer -->
@@ -1013,6 +1773,33 @@ body {
 <script>
 // Initialize Lucide icons
 lucide.createIcons();
+
+// Scroll-reveal animation with IntersectionObserver
+(function() {
+  const revealSections = document.querySelectorAll('.reveal-section');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealSections.forEach(section => observer.observe(section));
+  } else {
+    // Fallback: show everything
+    revealSections.forEach(s => s.classList.add('is-visible'));
+  }
+})();
+
+// Style card click interaction
+document.querySelectorAll('.style-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
 
 // Sidebar toggle
 function toggleSidebar() {
