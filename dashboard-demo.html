@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+
+<!-- Perplexity Computer Attribution — SEO Meta Tags -->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Studio — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ─── Reset & Base ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0d0b14;
+  --card: #16131f;
+  --border: #2a2535;
+  --sidebar-bg: #0a0912;
+  --purple: #7c3aed;
+  --purple-light: #a78bfa;
+  --purple-glow: rgba(124, 58, 237, 0.15);
+  --purple-glow-strong: rgba(124, 58, 237, 0.3);
+  --text: #e8e5f0;
+  --text-muted: #9892a6;
+  --text-faint: #5e586e;
+  --green: #34d399;
+  --green-bg: rgba(52, 211, 153, 0.12);
+  --yellow: #fbbf24;
+  --yellow-bg: rgba(251, 191, 36, 0.12);
+  --blue: #60a5fa;
+  --blue-bg: rgba(96, 165, 250, 0.12);
+  --gray-badge: #6b7280;
+  --gray-badge-bg: rgba(107, 114, 128, 0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+  --transition: 180ms ease;
+}
+
+html { font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+/* ─── Sidebar ─── */
+.sidebar {
+  width: 256px;
+  min-width: 256px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.sidebar-logo .logo-icon {
+  font-size: 22px;
+  color: var(--purple-light);
+}
+
+.sidebar-nav { padding: 0 12px; flex: 1; overflow-y: auto; }
+
+.nav-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  padding: 16px 8px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 450;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+  user-select: none;
+}
+.nav-item:hover { background: rgba(124, 58, 237, 0.08); color: var(--text); }
+.nav-item.active {
+  background: var(--purple-glow);
+  color: var(--purple-light);
+  font-weight: 500;
+}
+.nav-item i { width: 18px; height: 18px; flex-shrink: 0; }
+
+.nav-item-new {
+  color: var(--purple-light);
+}
+.nav-item-new:hover { background: var(--purple-glow); }
+
+.project-list { padding: 0; }
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 20px;
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.project-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+.project-item.active { color: var(--text); font-weight: 500; }
+.project-item .dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.project-item.active .dot { background: var(--purple); }
+.project-item:not(.active) .dot { background: var(--text-faint); }
+
+.submenu { padding: 4px 0 4px 28px; }
+.submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 12.5px;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.submenu-item:hover { color: var(--text-muted); background: rgba(255,255,255,0.03); }
+.submenu-item.active { color: var(--purple-light); }
+.submenu-item i { width: 15px; height: 15px; }
+
+/* Collapsible Projects Header */
+.projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 8px 6px;
+  cursor: pointer;
+  user-select: none;
+}
+.projects-header-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+.projects-header i {
+  width: 14px; height: 14px; color: var(--text-faint);
+  transition: transform 0.25s ease;
+}
+.projects-header.collapsed i { transform: rotate(-90deg); }
+.projects-list-wrap { overflow: hidden; transition: max-height 0.3s ease; max-height: 500px; }
+.projects-list-wrap.collapsed { max-height: 0; }
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.sidebar-footer:hover { background: rgba(255,255,255,0.03); }
+.sidebar-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), #a855f7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: white;
+  flex-shrink: 0;
+}
+.sidebar-user-info { flex: 1; min-width: 0; }
+.sidebar-user-name {
+  font-size: 13px; font-weight: 500; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sidebar-user-email {
+  font-size: 11px; color: var(--text-faint);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sidebar-footer i { width: 16px; height: 16px; color: var(--text-faint); flex-shrink: 0; }
+
+/* ─── Main Content ─── */
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Bar */
+.topbar {
+  height: 56px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 12px;
+  flex-shrink: 0;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topbar-toggle {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+  color: var(--text-muted);
+}
+.topbar-toggle:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+.topbar-breadcrumb {
+  font-size: 13px; color: var(--text-faint); font-weight: 400;
+}
+.topbar-breadcrumb span { color: var(--text-muted); font-weight: 500; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.topbar-icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: background var(--transition), color var(--transition);
+}
+.topbar-icon:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+
+/* Content Area */
+.content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ─── Welcome Banner ─── */
+.welcome-banner {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(168, 85, 247, 0.06) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.welcome-text h1 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.welcome-text p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.welcome-text p span {
+  color: var(--purple-light);
+  font-weight: 500;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  white-space: nowrap;
+  font-family: inherit;
+}
+.btn-primary:hover {
+  background: #6d28d9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+}
+.btn-primary i { width: 16px; height: 16px; }
+
+/* ─── KPI Cards ─── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.kpi-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.kpi-icon i { width: 20px; height: 20px; }
+.kpi-icon.purple { background: var(--purple-glow); color: var(--purple-light); }
+.kpi-icon.green { background: var(--green-bg); color: var(--green); }
+.kpi-icon.blue { background: var(--blue-bg); color: var(--blue); }
+.kpi-icon.yellow { background: var(--yellow-bg); color: var(--yellow); }
+.kpi-info {}
+.kpi-value {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 450;
+}
+
+/* ─── Section Title ─── */
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Project Cards Grid ─── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  cursor: pointer;
+}
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.badge-gray { background: var(--gray-badge-bg); color: var(--gray-badge); }
+
+.card-desc {
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.card-progress { display: flex; flex-direction: column; gap: 6px; }
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 450;
+}
+.progress-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--purple-light));
+  transition: width 0.8s ease;
+}
+
+.card-stats {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+.card-stats span { display: flex; align-items: center; gap: 4px; }
+.card-stats i { width: 13px; height: 13px; }
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.card-date {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+.card-continue {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--purple-light);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--transition), gap var(--transition);
+}
+.card-continue:hover { color: #c4b5fd; gap: 8px; }
+
+/* ─── Pipeline View ─── */
+.pipeline-section { margin-bottom: 32px; }
+.pipeline-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 20px 0 24px;
+}
+
+.pipeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.step-circle {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.step-circle i { width: 20px; height: 20px; }
+
+.step-done .step-circle {
+  background: var(--green-bg);
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+.step-current .step-circle {
+  background: var(--purple-glow);
+  border: 2px solid var(--purple);
+  color: var(--purple-light);
+  animation: pulse-border 2s ease-in-out infinite;
+}
+.step-current .step-circle i {
+  animation: spin-slow 3s linear infinite;
+}
+.step-future .step-circle {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--border);
+  color: var(--text-faint);
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(124, 58, 237, 0); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  max-width: 90px;
+  line-height: 1.3;
+}
+.step-done .step-label { color: var(--green); }
+.step-current .step-label { color: var(--purple-light); }
+.step-future .step-label { color: var(--text-faint); }
+
+.step-connector {
+  width: 48px;
+  height: 2px;
+  flex-shrink: 0;
+  margin-bottom: 28px;
+  border-radius: 1px;
+}
+.connector-done { background: var(--green); }
+.connector-current { background: linear-gradient(90deg, var(--green), var(--purple)); }
+.connector-future { background: var(--border); }
+
+.pipeline-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  font-family: inherit;
+}
+.btn-outline:hover {
+  border-color: var(--text-faint);
+  color: var(--text);
+  background: rgba(255,255,255,0.03);
+}
+.btn-outline i { width: 15px; height: 15px; }
+
+/* ─── Footer ─── */
+.page-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-footer a {
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.page-footer a:hover { color: var(--text-muted); }
+
+/* ─── Responsive ─── */
+@media (max-width: 1100px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    transform: translateX(-100%);
+    z-index: 200;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 150;
+  }
+  .sidebar-overlay.open { display: block; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .welcome-banner { flex-direction: column; align-items: flex-start; }
+  .content { padding: 20px 16px; }
+  .pipeline-track { padding: 12px 0 16px; }
+}
+@media (max-width: 480px) {
+  .kpi-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- ─── Sidebar ─── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-icon">✦</span>
+    AI Studio
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- Navigation -->
+    <div class="nav-section-label">Navigation</div>
+    <div class="nav-item active">
+      <i data-lucide="layout-dashboard"></i>
+      Dashboard
+    </div>
+    <div class="nav-item nav-item-new">
+      <i data-lucide="plus"></i>
+      New Project
+    </div>
+
+    <!-- Projects (Collapsible) -->
+    <div class="projects-header" id="projectsToggle" onclick="toggleProjects()">
+      <span class="projects-header-label">Projects</span>
+      <i data-lucide="chevron-down"></i>
+    </div>
+    <div class="projects-list-wrap" id="projectsList">
+      <div class="project-list">
+        <div class="project-item active">
+          <span class="dot"></span>
+          The Great Gatsby
+        </div>
+        <div class="project-item">
+          <span class="dot"></span>
+          Мастер и Маргарита
+        </div>
+        <div class="project-item">
+          <span class="dot"></span>
+          Dune: Messiah
+        </div>
+      </div>
+      <!-- Submenu for active project -->
+      <div class="submenu">
+        <div class="submenu-item active">
+          <i data-lucide="eye"></i>
+          Overview
+        </div>
+        <div class="submenu-item">
+          <i data-lucide="users"></i>
+          Characters
+        </div>
+        <div class="submenu-item">
+          <i data-lucide="map-pin"></i>
+          Locations
+        </div>
+        <div class="submenu-item">
+          <i data-lucide="book-open"></i>
+          Story
+        </div>
+        <div class="submenu-item">
+          <i data-lucide="film"></i>
+          Scenes
+        </div>
+        <div class="submenu-item">
+          <i data-lucide="sparkles"></i>
+          Vision
+        </div>
+        <div class="submenu-item">
+          <i data-lucide="layers"></i>
+          Assembly
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- User Footer -->
+  <div class="sidebar-footer">
+    <div class="sidebar-avatar">AS</div>
+    <div class="sidebar-user-info">
+      <div class="sidebar-user-name">Alex Sevryuga</div>
+      <div class="sidebar-user-email">asevryuga@gmail.com</div>
+    </div>
+    <i data-lucide="chevron-up"></i>
+  </div>
+</aside>
+
+<!-- ─── Main ─── -->
+<div class="main">
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-toggle" onclick="toggleSidebar()">
+      <i data-lucide="menu"></i>
+    </div>
+    <div class="topbar-breadcrumb">
+      Dashboard / <span>The Great Gatsby</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-icon">
+        <i data-lucide="search"></i>
+      </div>
+      <div class="topbar-icon">
+        <i data-lucide="bell"></i>
+      </div>
+      <div class="topbar-icon">
+        <i data-lucide="settings"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <div class="welcome-text">
+        <h1>Good evening, Alex!</h1>
+        <p>You have <span>3 projects</span> • <span>24 scenes</span> generated • <span>12 clips</span> rendered</p>
+      </div>
+      <button class="btn-primary">
+        <i data-lucide="plus"></i>
+        New Project
+      </button>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-icon purple">
+          <i data-lucide="users"></i>
+        </div>
+        <div class="kpi-info">
+          <div class="kpi-value">12</div>
+          <div class="kpi-label">Characters</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon green">
+          <i data-lucide="map-pin"></i>
+        </div>
+        <div class="kpi-info">
+          <div class="kpi-value">8</div>
+          <div class="kpi-label">Locations</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon blue">
+          <i data-lucide="clapperboard"></i>
+        </div>
+        <div class="kpi-info">
+          <div class="kpi-value">24</div>
+          <div class="kpi-label">Scenes</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon yellow">
+          <i data-lucide="scroll-text"></i>
+        </div>
+        <div class="kpi-info">
+          <div class="kpi-value">18</div>
+          <div class="kpi-label">Scripts</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon purple">
+          <i data-lucide="video"></i>
+        </div>
+        <div class="kpi-info">
+          <div class="kpi-value">6</div>
+          <div class="kpi-label">Clips</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Cards -->
+    <div class="section-title">Your Projects</div>
+    <div class="projects-grid">
+
+      <!-- Card 1: The Great Gatsby -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-title">The Great Gatsby</div>
+          <span class="badge badge-yellow">scripting</span>
+        </div>
+        <div class="card-desc">F. Scott Fitzgerald classic, 1925</div>
+        <div class="card-progress">
+          <div class="progress-header">
+            <span>Pipeline Progress</span>
+            <span>50%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 50%"></div>
+          </div>
+        </div>
+        <div class="card-stats">
+          <span><i data-lucide="users"></i> 12 chars</span>
+          <span><i data-lucide="clapperboard"></i> 24 scenes</span>
+          <span><i data-lucide="video"></i> 6 clips</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-date">Mar 20, 2026</span>
+          <a href="#" class="card-continue">Continue <span>→</span></a>
+        </div>
+      </div>
+
+      <!-- Card 2: Мастер и Маргарита -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-title">Мастер и Маргарита</div>
+          <span class="badge badge-blue">parsing</span>
+        </div>
+        <div class="card-desc">Mikhail Bulgakov, 1967</div>
+        <div class="card-progress">
+          <div class="progress-header">
+            <span>Pipeline Progress</span>
+            <span>25%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 25%"></div>
+          </div>
+        </div>
+        <div class="card-stats">
+          <span><i data-lucide="users"></i> 8 chars</span>
+          <span><i data-lucide="clapperboard"></i> 0 scenes</span>
+          <span><i data-lucide="video"></i> 0 clips</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-date">Mar 22, 2026</span>
+          <a href="#" class="card-continue">Continue <span>→</span></a>
+        </div>
+      </div>
+
+      <!-- Card 3: Dune: Messiah -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-title">Dune: Messiah</div>
+          <span class="badge badge-gray">draft</span>
+        </div>
+        <div class="card-desc">Frank Herbert, 1969</div>
+        <div class="card-progress">
+          <div class="progress-header">
+            <span>Pipeline Progress</span>
+            <span>0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="card-stats">
+          <span><i data-lucide="users"></i> 0 chars</span>
+          <span><i data-lucide="clapperboard"></i> 0 scenes</span>
+          <span><i data-lucide="video"></i> 0 clips</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-date">Mar 24, 2026</span>
+          <a href="#" class="card-continue">Continue <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline View -->
+    <div class="pipeline-section">
+      <div class="section-title">Pipeline — The Great Gatsby</div>
+      <div class="pipeline-track">
+        <!-- Step 1: Upload Book ✓ -->
+        <div class="pipeline-step step-done">
+          <div class="step-circle">
+            <i data-lucide="check"></i>
+          </div>
+          <div class="step-label">Upload Book</div>
+        </div>
+        <div class="step-connector connector-done"></div>
+
+        <!-- Step 2: Parse & Extract ✓ -->
+        <div class="pipeline-step step-done">
+          <div class="step-circle">
+            <i data-lucide="check"></i>
+          </div>
+          <div class="step-label">Parse &amp; Extract</div>
+        </div>
+        <div class="step-connector connector-done"></div>
+
+        <!-- Step 3: Story Structure ✓ -->
+        <div class="pipeline-step step-done">
+          <div class="step-circle">
+            <i data-lucide="check"></i>
+          </div>
+          <div class="step-label">Story Structure</div>
+        </div>
+        <div class="step-connector connector-current"></div>
+
+        <!-- Step 4: Screenplay ● (current) -->
+        <div class="pipeline-step step-current">
+          <div class="step-circle">
+            <i data-lucide="loader-2"></i>
+          </div>
+          <div class="step-label">Screenplay</div>
+        </div>
+        <div class="step-connector connector-future"></div>
+
+        <!-- Step 5: Vision Prompts ○ -->
+        <div class="pipeline-step step-future">
+          <div class="step-circle">
+            <i data-lucide="lock"></i>
+          </div>
+          <div class="step-label">Vision Prompts</div>
+        </div>
+        <div class="step-connector connector-future"></div>
+
+        <!-- Step 6: Video Render ○ -->
+        <div class="pipeline-step step-future">
+          <div class="step-circle">
+            <i data-lucide="lock"></i>
+          </div>
+          <div class="step-label">Video Render</div>
+        </div>
+        <div class="step-connector connector-future"></div>
+
+        <!-- Step 7: Assembly ○ -->
+        <div class="pipeline-step step-future">
+          <div class="step-circle">
+            <i data-lucide="lock"></i>
+          </div>
+          <div class="step-label">Assembly</div>
+        </div>
+      </div>
+
+      <div class="pipeline-actions">
+        <button class="btn-primary">
+          <i data-lucide="play"></i>
+          Run Next Step
+        </button>
+        <button class="btn-outline">
+          <i data-lucide="rotate-ccw"></i>
+          Rerun Current
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <span>© 2026 AI Studio. All rights reserved.</span>
+    <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">
+      Created with Perplexity Computer
+    </a>
+  </footer>
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// Sidebar toggle
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// Collapsible Projects
+function toggleProjects() {
+  const header = document.getElementById('projectsToggle');
+  const list = document.getElementById('projectsList');
+  header.classList.toggle('collapsed');
+  list.classList.toggle('collapsed');
+}
+
+// Animate progress bars on load
+document.addEventListener('DOMContentLoaded', () => {
+  const fills = document.querySelectorAll('.progress-fill');
+  fills.forEach(fill => {
+    const target = fill.style.width;
+    fill.style.width = '0%';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        fill.style.width = target;
+      });
+    });
+  });
+
+  // Animate KPI values counting up
+  const kpiValues = document.querySelectorAll('.kpi-value');
+  kpiValues.forEach(el => {
+    const target = parseInt(el.textContent);
+    if (isNaN(target)) return;
+    el.textContent = '0';
+    let current = 0;
+    const step = Math.max(1, Math.ceil(target / 30));
+    const interval = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        current = target;
+        clearInterval(interval);
+      }
+      el.textContent = current;
+    }, 30);
+  });
+});
+</script>
+</body>
+</html>
